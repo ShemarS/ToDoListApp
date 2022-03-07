@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_main2.*
 
 class MainActivity2 : AppCompatActivity() {
     var count = 0
@@ -13,6 +15,12 @@ class MainActivity2 : AppCompatActivity() {
     }
 
     fun saveAddNewOnClick(view: View) {
+        val task = addTaskEditText.text.toString()
+        if (task.isEmpty()) {
+            Toast.makeText(this, "Please add a task", Toast.LENGTH_SHORT).show()
+            return
+        }
+        
 
     }
 
