@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ToDoApp">
         <activity
-            android:name=".MainActivity2"
+            android:name=".SecondActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
