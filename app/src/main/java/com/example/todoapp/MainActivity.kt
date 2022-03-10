@@ -35,6 +35,9 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Removing $selectedItem", Toast.LENGTH_SHORT).show()
             toDoContents.removeAt(position)
             toDoContentsAdapter.notifyDataSetChanged()
+            if (toDoContents.isEmpty()) {
+                Toast.makeText(this, "All tasks are completed!", Toast.LENGTH_SHORT).show()
+            }
             return@setOnItemLongClickListener true
         }
     }
@@ -59,45 +62,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun saveData(){
-
-        // Create an instance of getSharedPreferences for edit
-       val sharedPreferences = getSharedPreferences(FILE_NAME, MODE_PRIVATE)
+    private fun saveData(){
+        val sharedPreferences = getSharedPreferences(FILE_NAME, MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-
-        // Create an instance of Gson (make sure to include its dependency first to be able use gson)
         val gson = Gson()
-        // toJson() method serializes the specified object into its equivalent Json representation.
         val taskListJson = gson.toJson(toDoContents)
-        // Put the  Json representation, which is a string, into sharedPreferences
         editor.putString("todo", taskListJson)
-        // Apply the changes
         editor.apply()
-
         Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show()
     }
 
-    fun loadData() {
-
-        // Create an instance of getSharedPreferences for retrieve the data
+    private fun loadData() {
         val sharedPreferences = getSharedPreferences(FILE_NAME, MODE_PRIVATE)
-        // Retrieve data using the key, default value is empty string in case no saved data in there
         val tasks = sharedPreferences.getString("todo", "") ?: ""
-
         if (tasks.isNotEmpty()) {
-
-            // Create an instance of Gson
             val gson = Gson()
-            // create an object expression that descends from TypeToken
-            // and then get the Java Type from that
             val sType = object : TypeToken<List<String>>() {}.type
-            // provide the type specified above to fromJson() method
-            // this will deserialize the previously saved Json into an object of the specified type (e.g., list)
             val loadedTask = gson.fromJson<List<String>>(tasks, sType)
             for (task in loadedTask) {
                 toDoContents.add(task)
             }
-
         }
     }
 }

@@ -16,9 +16,7 @@ import java.io.Serializable
 import java.util.ArrayList
 
 class SecondActivity : AppCompatActivity() {
-    var count = 0
-    val toDoContents = ArrayList<String>()
-    val gson = Gson()
+    private val toDoContents = ArrayList<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
@@ -30,25 +28,12 @@ class SecondActivity : AppCompatActivity() {
             Toast.makeText(this, "Please add a task", Toast.LENGTH_SHORT).show()
             return
         }
-/*        val secondIntent = Intent(this, MainActivity:: class.java)
-        secondIntent.putExtra("task", task)*/
-
         toDoContents.add(task)
         addTaskEditText.text.clear()
         addTaskEditText.hideKeyboard()
-
     }
 
     fun saveGoBackOnClick(view: View) {
-/*        val secondIntent = Intent(this, MainActivity::class.java)
-        startActivity(secondIntent)*/
-
-       /* val jsonString = gson.toJson(toDoContents)
-        val sType = object : TypeToken<List<String>>() { }.type
-        val myList = gson.fromJson<List<String>>(jsonString, sType)
-
-        Log.d(TAG, "$myList")*/
-
         val myIntent = Intent()
         myIntent.putStringArrayListExtra("todo", toDoContents)
         setResult(Activity.RESULT_OK, myIntent)
@@ -56,8 +41,9 @@ class SecondActivity : AppCompatActivity() {
     }
 
     fun goBackWithoutSaveOnClick(view: View) {
-        val myIntent = Intent(this, MainActivity::class.java)
-        startActivity(myIntent)
+        val myIntent = Intent()
+        setResult(Activity.RESULT_CANCELED, myIntent)
+        finish()
     }
 
     private fun View.hideKeyboard() {
@@ -65,5 +51,4 @@ class SecondActivity : AppCompatActivity() {
                 InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
     }
-
 }
